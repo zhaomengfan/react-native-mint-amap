@@ -1,40 +1,49 @@
-### ReactNative 地图定位Fly包
+### ReactNative 高德地图
 
-简介：android和iOS通用定位功能包，该包仅提供定位功能。
+## Installation
 
+Using npm:
 
-## Android安装指南
+```shell
+npm install --save react-native-mint-amap
+```
 
-**Step1 NPM install**
+or using yarn:
 
-    pakage add:
-    "fly-react-native-amaplocation": "file:../rn-plugins/fly-react-native-amaplocation"
-    then "npm install"
+```shell
+yarn add react-native-mint-amap
+```
+## Android
 
-## Step2  Update Gradle Settings
+### Step1  Update Gradle Settings
     // file: android/settings.gradle
     ...
     
-    include ':reactamaplocation'
-    project(':reactamaplocation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-amap-location')
+    include ':react-native-mint-amap'
+    project(':react-native-mint-amap').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-mint-amap')
 
-### Step3 Update app Gradle Build
+### Step2 Update app Gradle Build
     // file: android/app/build.gradle
     ...
     
     dependencies {
         ...
-        compile project(':reactamaplocation')
+        implementation project(':react-native-mint-amap')
     }
 
 ### Step4 Register React Package 
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
         new MainReactPackage(),
-        new AMapLocationReactPackage()); // <-- Register package here
+        new AMaplocationPackage()
+      ); // <-- Register package here
     }
 
-### Step 5 - Add service, api key and permissions
+### Step5 Init module  
+    // file: MainActivity.class   
+    AMapLocationModule.getInstance().initModule(this);
+
+### Step6 - Add service, api key and permissions
     <!--用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
     <!--用于访问GPS定位-->
@@ -67,27 +76,23 @@
     ...
 
 
-## iOS安装指南
-1.  fly-react-native-amaplocation包导入node_modules
-1.  将RCT***.xcodeproj引入主工程中
-2.  并将该.a文件引入工程
-3.  添加定位权限。建议在plist文件中同时添加NSLocationWhenInUseUsageDescription、NSLocationAlwaysUsageDescription和NSLocationAlwaysAndWhenInUseUsageDescription权限申请
-4. 在主工程添加Framework的搜索路径: "$(SRCROOT)/../node_modules/fly-react-native-amaplocation/iOS/RCTAMapLocation"
-5. 添加依赖包libstdc++.6.0.9.tbd、libc++.tbd、libz.tbd、Security.framework、CoreLocation.framework、CoreTelephony.framework、SystemConfiguration.framework、JavaScriptcore.framework
-6. AMapFoundationKit.framework、AMapLocationKit.framework也要添加
-6. 在rn.plist 配“AMapKey”= 你的高德key
+## iOS
+
+Add the following line to your build targets in your `Podfile`
+
+`pod 'RCTAMapLocation', :path => '../node_modules/react-native-mint-amap'`
+
+Then run `pod install`
 
 
-### 使用及说明
+### Usage
 
-    import {initAmaplocation,getCurrentPosition}from 'fly-react-native-amaplocation'
-    
-    initAmaplocation 初始化定位
-    
-    getCurrentPosition(onSucess,onErro) 获取当前定位地址
+    import RNAMapLocation from 'react-native-mint-amap';
+        
+    getCurrentPosition(onSucess,onError) 获取当前定位地址
     
         onSucess 定位成功
-        onErro 定位失败
+        onError 定位失败
         
     onSucess返回参数
     ---coodrs      经纬度海拔高度
@@ -106,18 +111,20 @@
             ---adCode       区域编码
             ---streetNum    街道编号
     
-    onErro(errMsg)错误信息字符串
+    onErro(errMsg)错误信息
     
 ### 完整示例
 
-    import {initAmaplocation,getCurrentPosition}from 'fly-react-native-amaplocation'
+    import RNAMapLocation from 'react-native-mint-amap';
     
     
-     componentDidMount() {
-        initAmaplocation();
-        getCurrentPosition((params) => {
-            console.log(params.address.adress);
-        }, (error) => {
-            console.log(error);
-        })
-    }
+    RNAMapLocation.getCurrentPosition(
+      data => {
+        alert(JSON.stringify(data));
+      },
+      error => {
+        alert(JSON.stringify(error));
+      },
+    );
+
+
