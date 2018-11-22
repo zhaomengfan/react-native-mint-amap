@@ -26,6 +26,11 @@ yarn add react-native-mint-amap
     // file: android/app/build.gradle
     ...
     
+    如果未使用react-native-mint需要修改gradle中的
+    compileSdkVersion
+    minSdkVersion
+    targetSdkVersion
+    
     dependencies {
         ...
         implementation project(':react-native-mint-amap')
