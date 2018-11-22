@@ -1,0 +1,12 @@
+{
+  "name": "react-native-mint-amap",
+  "version": "1.0.0",
+  "description": "react-native-mint的高德地图组件",
+  "main": "index.js",
+  "author": "Dreamfan",
+  "license": "MIT",
+  "homepage": "https://github.com/zhaomengfan/react-native-mint-amap",
+  "dependencies": {
+    "react-native-mint-services": "0.0.2"
+  }
+}
